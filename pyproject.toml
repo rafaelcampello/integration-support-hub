@@ -1,0 +1,10 @@
+[project]
+name = "integration-support-hub"
+version = "1.0.0"
+description = "Plataforma de diagnóstico de integrações REST/SOAP com JWT, Swagger, logs técnicos e histórico de testes."
+readme = "README.md"
+requires-python = ">=3.14,<3.15"
+license = "MIT"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

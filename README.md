@@ -8,7 +8,7 @@ Este projeto foi criado para portfólio de uma vaga de Assistente de Suporte e I
 
 ## Tecnologias
 
-- Python 3.11+
+- Python 3.14.6
 - FastAPI
 - SQLite
 - SQLAlchemy
@@ -79,7 +79,7 @@ Opcionalmente, copie `.env.example` para `.env` e ajuste os valores.
 ## Como rodar
 
 ```bash
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --reload
 ```
 
 Acesse:
@@ -132,10 +132,10 @@ Depois execute a requisição `Login`. A collection salva o token em uma variáv
 ## Testes automatizados
 
 ```bash
-pytest
+python -m pytest
 ```
 
-Os testes cobrem login válido, login inválido, acesso sem token, cadastro e listagem de integrações, teste REST, teste SOAP e simulação de erro.
+Os testes cobrem login válido, login inválido, acesso sem token, cadastro e listagem de integrações, teste REST, teste SOAP e simulação de erro. O projeto foi validado localmente com Python 3.14.6.
 
 ## Relação com suporte e integrações
 
