@@ -1,0 +1,13 @@
+.env
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+integration_support.db
+test_integration_support.db
+logs/*.log
+logs/*.log.*
+.ipynb_checkpoints/

@@ -1,0 +1,174 @@
+{
+  "info": {
+    "name": "Integration Support Hub",
+    "description": "Collection para testar login, integrações REST/SOAP, falhas simuladas, histórico e logs.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:8000" },
+    { "key": "token", "value": "" },
+    { "key": "rest_integration_id", "value": "1" },
+    { "key": "soap_integration_id", "value": "2" },
+    { "key": "error_integration_id", "value": "3" }
+  ],
+  "item": [
+    {
+      "name": "Login",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{base_url}}/auth/login",
+        "body": { "mode": "raw", "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}" }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const json = pm.response.json();",
+              "pm.collectionVariables.set('token', json.access_token);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Criar integração REST",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{base_url}}/integrations",
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"API REST de clientes\",\n  \"type\": \"REST\",\n  \"url\": \"https://api.exemplo.local/clientes\",\n  \"status\": \"ativa\",\n  \"description\": \"Integração REST simulada.\"\n}" }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.set('rest_integration_id', pm.response.json().id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Criar integração SOAP",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{base_url}}/integrations",
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"SOAP Consulta Cliente\",\n  \"type\": \"SOAP\",\n  \"url\": \"https://soap.exemplo.local/clientes\",\n  \"status\": \"ativa\",\n  \"description\": \"Integração SOAP simulada.\"\n}" }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.set('soap_integration_id', pm.response.json().id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Listar integrações",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/integrations"
+      }
+    },
+    {
+      "name": "Testar integração REST",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/integrations/{{rest_integration_id}}/test"
+      }
+    },
+    {
+      "name": "Testar integração SOAP",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/integrations/{{soap_integration_id}}/test"
+      }
+    },
+    {
+      "name": "Simular erro 401",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{base_url}}/integrations"
+      }
+    },
+    {
+      "name": "Simular erro 400",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{base_url}}/integrations",
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"x\",\n  \"type\": \"REST\"\n}" }
+      }
+    },
+    {
+      "name": "Criar integração com erro 500",
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Content-Type", "value": "application/json" },
+          { "key": "Authorization", "value": "Bearer {{token}}" }
+        ],
+        "url": "{{base_url}}/integrations",
+        "body": { "mode": "raw", "raw": "{\n  \"name\": \"REST com falha 500\",\n  \"type\": \"REST\",\n  \"url\": \"https://api.exemplo.local/falha\",\n  \"status\": \"ativa\",\n  \"description\": \"Integração usada para simular erro 500.\",\n  \"failure_mode\": \"server_error\"\n}" }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.collectionVariables.set('error_integration_id', pm.response.json().id);"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Simular erro 500",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/integrations/{{error_integration_id}}/test"
+      }
+    },
+    {
+      "name": "Consultar histórico de testes",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/integrations/{{rest_integration_id}}/tests"
+      }
+    },
+    {
+      "name": "Consultar logs técnicos",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+        "url": "{{base_url}}/logs"
+      }
+    }
+  ]
+}
