@@ -1,6 +1,14 @@
 import os
 from dataclasses import dataclass
 
+from dotenv import load_dotenv
+
+
+# Carrega automaticamente um arquivo .env local, quando ele existir.
+# Isso ajuda quem está estudando o projeto: basta copiar .env.example para .env
+# sem precisar exportar variáveis manualmente no terminal.
+load_dotenv()
+
 
 @dataclass(frozen=True)
 class Settings:

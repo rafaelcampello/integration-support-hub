@@ -74,7 +74,21 @@ Instale as dependências:
 pip install -r requirements.txt
 ```
 
-Opcionalmente, copie `.env.example` para `.env` e ajuste os valores.
+Crie o arquivo `.env` a partir do exemplo:
+
+No Windows PowerShell:
+
+```bash
+Copy-Item .env.example .env
+```
+
+No Linux/Mac:
+
+```bash
+cp .env.example .env
+```
+
+Para estudo local, você pode usar os valores do `.env.example`. A chave `SECRET_KEY` é apenas uma chave de demonstração; em produção ela deveria ser trocada por uma string longa, aleatória e privada.
 
 ## Como rodar
 
@@ -136,6 +150,22 @@ python -m pytest
 ```
 
 Os testes cobrem login válido, login inválido, acesso sem token, cadastro e listagem de integrações, teste REST, teste SOAP e simulação de erro. O projeto foi validado localmente com Python 3.14.6.
+
+## Solução de problemas
+
+Se aparecer `No module named uvicorn`, o `uvicorn` não foi instalado dentro do ambiente virtual ativo. Com o `venv` ativado, rode:
+
+```bash
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+python -m pip show uvicorn
+```
+
+Depois inicie a API com:
+
+```bash
+python -m uvicorn app.main:app --reload
+```
 
 ## Relação com suporte e integrações
 
