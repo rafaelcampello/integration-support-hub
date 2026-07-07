@@ -50,28 +50,125 @@ app/
   utils/                   # Utilitários de XML
 ```
 
-## Como instalar
+## Primeiros passos no Windows
+
+Este passo a passo foi escrito para quem está começando do zero em um computador Windows.
+
+### 1. Instalar os programas necessários
+
+Instale estes programas antes de clonar o projeto:
+
+- **Python 3.14.6**: https://www.python.org/downloads/
+- **Git for Windows**: https://git-scm.com/download/win
+- **Visual Studio Code**: https://code.visualstudio.com/
+- **Postman** opcional, para testar a API por interface gráfica: https://www.postman.com/downloads/
+
+Durante a instalação do Python, marque a opção **Add python.exe to PATH**. Durante a instalação do Git, mantenha a opção que permite usar o Git pelo terminal, normalmente chamada **Git from the command line and also from 3rd-party software**.
+
+### 2. Verificar se Python e Git estão no PATH
+
+Depois de instalar, feche e abra novamente o PowerShell. Isso faz o Windows recarregar o PATH.
+
+Rode:
+
+```powershell
+python --version
+git --version
+```
+
+O esperado é algo parecido com:
+
+```text
+Python 3.14.6
+git version 2.x.x
+```
+
+Se aparecer mensagem dizendo que `python` ou `git` não é reconhecido, o programa não foi adicionado ao PATH. Nesse caso:
+
+1. Abra o menu Iniciar e pesquise por **Editar as variáveis de ambiente do sistema**.
+2. Clique em **Variáveis de Ambiente**.
+3. Em **Variáveis do usuário**, selecione **Path** e clique em **Editar**.
+4. Adicione os caminhos do Python e do Git, se eles não existirem.
+
+Caminhos comuns do Python:
+
+```text
+C:\Users\SEU_USUARIO\AppData\Local\Programs\Python\Python314\
+C:\Users\SEU_USUARIO\AppData\Local\Programs\Python\Python314\Scripts\
+```
+
+Caminhos comuns do Git:
+
+```text
+C:\Program Files\Git\cmd\
+C:\Program Files\Git\bin\
+```
+
+Depois disso, feche e abra o PowerShell novamente e repita:
+
+```powershell
+python --version
+git --version
+```
+
+### 3. Clonar o repositório
+
+Escolha uma pasta onde você guarda seus projetos. Exemplo usando `Documents`:
+
+```powershell
+cd $HOME\Documents
+git clone https://github.com/rafaelcampello/integration-support-hub.git
+cd integration-support-hub
+```
+
+Se você usa o Visual Studio Code, abra a pasta do projeto com:
+
+```powershell
+code .
+```
+
+Se o comando `code .` não funcionar, abra o VS Code manualmente, pressione `Ctrl+Shift+P`, procure por **Shell Command: Install 'code' command in PATH** ou abra a pasta pelo menu **File > Open Folder**.
+
+## Como instalar o projeto
+
+Todos os comandos abaixo devem ser executados dentro da pasta `integration-support-hub`.
+
+Crie o ambiente virtual:
 
 ```bash
 python -m venv venv
 ```
 
-No Windows:
+Ative o ambiente virtual no Windows PowerShell:
 
-```bash
+```powershell
 venv\Scripts\activate
 ```
 
-No Linux/Mac:
+Quando ativar corretamente, o terminal deve mostrar `(venv)` no começo da linha.
 
-```bash
-source venv/bin/activate
+Atualize o `pip`:
+
+```powershell
+python -m pip install --upgrade pip
 ```
 
 Instale as dependências:
 
+```powershell
+python -m pip install -r requirements.txt
+```
+
+Verifique se o `uvicorn` foi instalado:
+
+```powershell
+python -m pip show uvicorn
+```
+
+No Linux/Mac, a ativação do ambiente virtual seria:
+
 ```bash
-pip install -r requirements.txt
+source venv/bin/activate
 ```
 
 Crie o arquivo `.env` a partir do exemplo:
