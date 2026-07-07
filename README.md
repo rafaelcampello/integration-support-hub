@@ -240,6 +240,43 @@ postman/Integration_Support_Hub.postman_collection.json
 
 Depois execute a requisição `Login`. A collection salva o token em uma variável e usa esse token nas demais chamadas.
 
+## Jupyter Notebook
+
+O projeto inclui um notebook de estudo em:
+
+```text
+notebooks/01_estudo_do_projeto.ipynb
+```
+
+Para abrir o notebook no Windows, primeiro confirme que você está na pasta do projeto e com o `venv` ativado:
+
+```powershell
+cd $HOME\Documents\integration-support-hub
+venv\Scripts\activate
+```
+
+Depois instale as dependências, caso ainda não tenha feito:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+Abra o Jupyter Notebook com:
+
+```powershell
+python -m notebook
+```
+
+Se o comando acima não abrir, use:
+
+```powershell
+python -m jupyter notebook
+```
+
+O navegador deve abrir automaticamente. Na tela do Jupyter, entre na pasta `notebooks/` e clique em `01_estudo_do_projeto.ipynb`.
+
+Para encerrar o Jupyter, volte ao terminal onde ele está rodando e pressione `Ctrl+C`. Se ele perguntar se deseja parar o servidor, confirme com `y` e `Enter`.
+
 ## Testes automatizados
 
 ```bash
